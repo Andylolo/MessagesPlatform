@@ -1,0 +1,56 @@
+package com.cxins.cn.message.httpservletTest;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+
+public class TestSendSMS {
+
+	
+	
+	public String dd(String message){
+		 
+		  String url = "http://localhost:8080/MessagesPlatform/httpServer?message="+ message;
+		  URL httpTest;
+		  String resultMsg = null;
+		  try {
+		   message = URLEncoder.encode(message, "utf-8");
+		   httpTest = new URL(url);
+	       HttpURLConnection httpURLConnection = (HttpURLConnection)httpTest.openConnection();
+	       httpURLConnection.connect();
+	       System.out.println("返回连接状态："+httpURLConnection.getResponseCode());//200表示成功
+		   BufferedReader in;
+		   try {
+		    in = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+		    String inputLine = null;
+		    //得到返回信息的xml字符串
+		    while ((inputLine = in.readLine()) != null)
+		     if(resultMsg != null){
+		      resultMsg += inputLine;
+		     }else {
+		      resultMsg = inputLine;
+		     }
+		    System.out.println("resultMsg:"+resultMsg);
+		    in.close();
+			httpURLConnection.disconnect();
+		   } catch (MalformedURLException e) {
+		    e.printStackTrace();
+		   }
+		  } catch (IOException e) {
+		   // TODO Auto-generated catch block
+		   e.printStackTrace();
+		  }
+	
+		  return resultMsg;
+	}
+	public static void main(String[] args) {
+		TestSendSMS sms=new TestSendSMS();
+		//Server returned HTTP response code: 505 中间不可有空格
+		sms.dd("这是log1测试消息");
+	}
+
+}

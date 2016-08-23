@@ -1,0 +1,15 @@
+package com.cxins.cn.message.webserviceTest;
+
+public class MyWebserviceTest {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		 HelloWorldServiceService ss = new HelloWorldServiceService();
+	     HelloWorldService port = ss.getHelloWorldServicePort(); 
+	     System.out.println(port.beginWork("give me five","nice"));
+
+	}
+
+}
